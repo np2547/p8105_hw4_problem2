@@ -13,7 +13,17 @@ library(readr)
 library(tidyverse)
 
 gdp = read_csv("./data/GDP.csv")
-pols_month = read_csv("./data/pols-month.csv")
+pols_month = read_csv("./data/pols-month.csv") %>%
+  mutate(president = prez_gop) %>%
+  select(-prez_gop) 
+
+#change binary 01 values to more appropriate ones
+pols_month$president = ifelse(pols_month$president == 0, "dem", "gop")
+
+
+#floor_date 
+pols_month$mon = lubridate::floor_date(pols_month$mon, unit = "month")
+
   
 #join data by date. DATE in gdp, mon in pols_month, asked to use lubridate::floor_date. format same, why not rename to be same column name and join?
 
@@ -21,4 +31,3 @@ pols_month = read_csv("./data/pols-month.csv")
 
 
 ```
- * comments
