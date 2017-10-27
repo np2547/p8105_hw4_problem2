@@ -29,9 +29,14 @@ pols_month$president = ifelse(pols_month$president == 0, "dem", "gop")
 pols_month$mon = lubridate::floor_date(pols_month$mon, unit = "month")
 gdp$DATE = lubridate::floor_date(gdp$DATE, unit = "month")
 
-#change pols_month mon column to DATE
+#change pols_month mon column to DATE, change VALUE to gdp for clarity
 colnames(pols_month)[1] <- "DATE"
+colnames(gdp[2]) <- "gdp"
 
-  
+#combine datasets 
 pols_gdp = full_join(pols_month, gdp, by = "DATE")
+
+#since we are plotting  this dataset, delete na's
+pols_gdp = pols_gdp %>%
+  na.omit(gdp)
 ```
