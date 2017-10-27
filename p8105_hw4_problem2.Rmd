@@ -5,7 +5,6 @@ date: "10/26/2017"
 output: html_document
 ---
 
-
 Nadiya Pavlishyn (np2547) as project lead and Feben Asefaha (fta2112) as collaborator.
 ```{r}
 library(dplyr)
@@ -13,6 +12,11 @@ library(readr)
 library(tidyverse)
 
 gdp = read_csv("./data/GDP.csv")
+
+#change . in value to na
+gdp$VALUE[gdp$VALUE == "."] <- NA
+  
+
 pols_month = read_csv("./data/pols-month.csv") %>%
   mutate(president = prez_gop) %>%
   select(-prez_gop) 
@@ -23,11 +27,11 @@ pols_month$president = ifelse(pols_month$president == 0, "dem", "gop")
 
 #floor_date 
 pols_month$mon = lubridate::floor_date(pols_month$mon, unit = "month")
+gdp$DATE = lubridate::floor_date(gdp$DATE, unit = "month")
+
+#change pols_month mon column to DATE
+colnames(pols_month)[1] <- "DATE"
 
   
-#join data by date. DATE in gdp, mon in pols_month, asked to use lubridate::floor_date. format same, why not rename to be same column name and join?
-
-####pols_gdp = full_join(pols_month, gdp)
-
-
+pols_gdp = full_join(pols_month, gdp, by = "DATE")
 ```
