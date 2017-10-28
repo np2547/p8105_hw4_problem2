@@ -31,7 +31,7 @@ gdp$DATE = lubridate::floor_date(gdp$DATE, unit = "month")
 
 #change pols_month mon column to DATE, change VALUE to gdp for clarity
 colnames(pols_month)[1] <- "DATE"
-colnames(gdp[2]) <- "gdp"
+colnames(gdp)[2] <- "gdp"
 
 #combine datasets 
 pols_gdp = full_join(pols_month, gdp, by = "DATE")
@@ -40,3 +40,7 @@ pols_gdp = full_join(pols_month, gdp, by = "DATE")
 pols_gdp = pols_gdp %>%
   na.omit(gdp)
 ```
+
+
+```{r graphing}
+
