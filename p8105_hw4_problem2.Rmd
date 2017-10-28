@@ -11,10 +11,10 @@ library(dplyr)
 library(readr)
 library(tidyverse)
 
-gdp = read_csv("./data/GDP.csv")
+gdp_table = read_csv("./data/GDP.csv")
 
 #change . in value to na
-gdp$VALUE[gdp$VALUE == "."] <- NA
+gdp_table$VALUE[gdp_table$VALUE == "."] <- NA
   
 
 pols_month = read_csv("./data/pols-month.csv") %>%
@@ -27,14 +27,17 @@ pols_month$president = ifelse(pols_month$president == 0, "dem", "gop")
 
 #floor_date 
 pols_month$mon = lubridate::floor_date(pols_month$mon, unit = "month")
-gdp$DATE = lubridate::floor_date(gdp$DATE, unit = "month")
+gdp_table$DATE = lubridate::floor_date(gdp_table$DATE, unit = "month")
 
 #change pols_month mon column to DATE, change VALUE to gdp for clarity
-colnames(pols_month)[1] <- "DATE"
-colnames(gdp)[2] <- "gdp"
+#colnames(pols_month)[1] <- "DATE"
+#colnames(gdp_table)[2] <- "gdp"
+
+pols_month = rename(pols_month, DATE = mon) 
+gdp_table = rename(gdp_table, gdp = VALUE) 
 
 #combine datasets 
-pols_gdp = full_join(pols_month, gdp, by = "DATE")
+pols_gdp = full_join(pols_month, gdp_table, by = "DATE")
 
 #since we are plotting  this dataset, delete na's
 pols_gdp = pols_gdp %>%
@@ -43,4 +46,17 @@ pols_gdp = pols_gdp %>%
 
 
 ```{r graphing}
+
+library(ggplot2)
+library(ggridges)
+library(scales)
+
+#pols_gdp_top = head(pols_gdp)
+ggplot(pols_gdp, aes(x=DATE, y=gdp)) + 
+  geom_point() 
+#+ 
+  #scale_x_datetime(breaks=date_breaks("10 year"), labels=date_format("%Y:%m")) + 
+  #theme(axis.text.x=element_text(angle=90))
+```
+
 
