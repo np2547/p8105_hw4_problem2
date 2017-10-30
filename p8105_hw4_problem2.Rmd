@@ -65,7 +65,7 @@ ggplot(pols_gdp, aes(x= DATE, y= gdp, fill= president)) +
 
 ```
 
+The pols_gdp dataset is merged to give us the change in Gross Domestic Product growth, as well as the party makeup of the Congress and President at the time. It has `r nrow(pols_gdp)` observations among `r ncol(pols_gdp)` variables. The `r names(pols_gdp)[2]`, `r names(pols_gdp)[3]`, and `r names(pols_gdp)[4]` variables tell us the number of Republican governors, senators and representatives in office at any given `r names(pols_gdp)[1]`. Similarly, we have the same information for Democrats in the `r names(pols_gdp)[5]`, `r names(pols_gdp)[6]`, and `r names(pols_gdp)[7]` columns. The party affiliation of the current president is noted by the `r names(pols_gdp)[8]` column. This political information, combined with the gdp and date information, helps to give us the above graph.
 
-
-
+GDP is often measured every few months in our data, and the trend in gdp percent change over time is quite variable. The highest increases seem to come earlier in our data. But starting around the late 1970s/early 1980s, the improvements in the gdp from year to year seem to get smaller. These changes can also be compared across presidential administrations. 
 
